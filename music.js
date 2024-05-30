@@ -140,49 +140,196 @@ Array.from(document.getElementsByClassName('songitem')).forEach((e,i) =>{
 
 //search bar setting :-
 //  search data start:-
-let results = document.getElementsByClassName('results')[0];
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const resultsContainer = document.querySelector('nav .search .results');
+    const masterPlay = document.querySelector('.master_play');
+    const masterPlayTitle = masterPlay.querySelector('#title');
+    const masterPlaySubtitle = masterPlay.querySelector('.subtitle');
+    const masterPlayBanner = masterPlay.querySelector('#banner_master_play');
+    const playButton = masterPlay.querySelector('#masterplay');
+    const seekBar = masterPlay.querySelector('#seek');
+    const currentStart = masterPlay.querySelector('#currentStart');
+    const currentEnd = masterPlay.querySelector('#currentEnd');
+    const backBtn = masterPlay.querySelector('#back');
+    const nextBtn = masterPlay.querySelector('#next');
+    const volumeIcon = masterPlay.querySelector('#vol_icon');
+    const volumeBar = masterPlay.querySelector('#vol');
+    const volumeDot = masterPlay.querySelector('#vol_dot');
 
-albums.forEach(element=>{
-    const {id,songName,banner} = element;
-    console.log(id);
-    let card = document.createElement('a');
-    card.classList.add('card');
-    card.href="#" + id;
+    let currentSound = null;
+    let currentIndex = -1; // Start with no song selected
 
-    card.innerHTML=`
-    <img src="${banner}" alt="">
-    <div class="songdata">
-       ${songName}
-   </div> 
-    `;
-    results.appendChild(card);
-});
+    // Simulated data (replace with your actual data)
+    const songs = [
+        { id: 1, title: 'On My Way', artist: 'Alan Walker', image: 'img/1.jpg', audio: 'audio/1.mp3' },
+        { id: 2, title: 'Alan Walker Faded', artist: 'Alan Walker', image: 'img/2.jpg', audio: 'audio/2.mp3' },
+        { id: 3, title: 'Cartoon - Mas Ya Mas', artist: 'Daniyel Levi', image: 'img/3.jpg', audio: 'audio/3.mp3' },
+        { id: 4, title: 'Warrios Mortals', artist: 'Laura Brehm', image: 'img/4.jpg', audio: 'audio/4.mp3' },
+        { id: 5, title: 'Romantic tune', artist: 'Adam-Eve tune', image: 'img/5.jpg', audio: 'audio/5.mp3' },
+        { id: 6, title: 'Non copirite song', artist: 'Noname', image: 'img/6.jpg', audio: 'audio/6.mp3' },
+        { id: 7, title: 'Ved', artist: 'Ajay-Atul', image: 'img/7.jpg', audio: 'audio/7.mp3' },
+        { id: 8, title: 'Le ja Jarurat Ho To', artist: 'Jubin Nautiyal', image: 'img/8.jpg', audio: 'audio/8.mp3' },
+        { id: 9, title: 'Dilbar', artist: 'Dhwani Bhanushali', image: 'img/9.jpg', audio: 'audio/9.mp3' },
+        { id: 10, title: 'Bulave Tuze aaj meri Galiyaan', artist: 'Akhil-Dhwani Bhanushali', image: 'img/10.jpg', audio: 'audio/10.mp3' },
+        { id: 11, title: 'Lagdi Lahore Di', artist: 'Guru Randhava', image: 'img/11.jpg', audio: 'audio/11.mp3' },
+        { id: 12, title: 'Putt Jatt da', artist: 'Diljit Doshan', image: 'img/12.jpg', audio: 'audio/12.mp3' },
+        { id: 13, title: 'Baarishein', artist: 'Atif Aslam', image: 'img/13.jpg', audio: 'audio/13.mp3' },
+        { id: 14, title: 'Vaste', artist: 'Dhwani Bhanushali', image: 'img/14.jpg', audio: 'audio/14.mp3' },
+        { id: 15, title: 'Kutti Mohabbat ne..!', artist: 'Jubin Nautiyaal', image: 'img/15.jpg', audio: 'audio/15.mp3' },
+        { id: 16, title: 'Meri Zindagi hai tu', artist: 'Jubin Nautiyaal', image: 'img/16.jpg', audio: 'audio/16.mp3' },
+        { id: 17, title: 'Batao yaad hai tumko', artist: 'Rahat Fateh Ali khan', image: 'img/17.jpg', audio: 'audio/17.mp3' },
+        { id: 18, title: 'Mere dhol judayian di(Pasoori)', artist: 'Ali sethi-Shae gill', image: 'img/18.jpg', audio: 'audio/18.mp3' },
+        { id: 19, title: 'Munde pagal hai saare', artist: 'AP Dhiloone', image: 'img/19.jpg', audio: 'audio/19.mp3' },
+        { id: 20, title: 'Vande Mataram', artist: 'A R Rehman', image: 'img/20.jpg', audio: 'audio/20.mp3' }
+    ];
 
-// serach filter:-
-let input = document.getElementsByTagName('input')[0];
-
-input.addEventListener('keyup',()=>{
-    let input_value =input.value.toUpperCase();
-    let items = results.getElementsByTagName('a');
-
-    for (let index = 0; index < items.length; index++) {
-       let as = items[index].getElementsByClassName('songdata')[0];
-       let textvalue =as.textContent || as.innerHTML;
-
-       if (textvalue.toUpperCase().indexOf(input_value)>-1) {
-         items[index].style.display="flex";
-        } else {
-           items[index].style.display="none";
+    // Function to update master play with song details
+    function updateMasterPlay(song) {
+        if (currentSound) {
+            currentSound.stop();
         }
-        if(input.value==0){
-            results.style.display="none";
-        }
-        else{
-            results.style.display="";
-        }
-        
+        currentSound = new Howl({
+            src: [song.audio],
+            onplay: () => {
+                playButton.classList.remove('bi-play-fill');
+                playButton.classList.add('bi-pause-fill');
+                updateSeek();
+            },
+            onend: () => {
+                playButton.classList.remove('bi-pause-fill');
+                playButton.classList.add('bi-play-fill');
+            }
+        });
+        currentSound.play();
+        masterPlayTitle.textContent = song.title;
+        masterPlaySubtitle.textContent = song.artist;
+        masterPlayBanner.src = song.image;
+        currentIndex = songs.indexOf(song);
+        console.log(`Playing song: ${song.title} by ${song.artist}`);
     }
+
+    // Function to handle click event on a song card
+    function handleSongClick(song) {
+        return function(event) {
+            event.preventDefault();
+            updateMasterPlay(song);
+        };
+    }
+
+    // Function to populate search results based on input
+    function populateResults(searchTerm) {
+        const filteredSongs = songs.filter(song =>
+            song.title.toLowerCase().includes(searchTerm) ||
+            song.artist.toLowerCase().includes(searchTerm)
+        );
+
+        if (filteredSongs.length > 0) {
+            resultsContainer.innerHTML = ''; // Clear previous results
+            filteredSongs.forEach(song => {
+                const card = document.createElement('a');
+                card.href = '#'; // Replace with actual link or action
+                card.classList.add('card');
+                card.innerHTML = `
+                    <img src="${song.image}" alt="">
+                    <div class="songdata">
+                        ${song.title}
+                        <div class="subtitle">
+                            ${song.artist}
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', handleSongClick(song));
+                resultsContainer.appendChild(card);
+            });
+            resultsContainer.classList.add('active');
+        } else {
+            resultsContainer.innerHTML = '<p>No results found</p>';
+            resultsContainer.classList.add('active');
+        }
+    }
+
+    // Event listener for search input
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        if (searchTerm === '') {
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.remove('active');
+            return;
+        }
+
+        populateResults(searchTerm);
+    });
+
+    // Close results on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search')) {
+            resultsContainer.classList.remove('active');
+        }
+    });
+
+    // Event listener for back button
+    backBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateMasterPlay(songs[currentIndex]);
+        }
+    });
+
+    // Event listener for next button
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < songs.length - 1) {
+            currentIndex++;
+            updateMasterPlay(songs[currentIndex]);
+        }
+    });
+
+    // Event listener for play/pause button
+    playButton.addEventListener('click', () => {
+        if (currentSound) {
+            if (currentSound.playing()) {
+                currentSound.pause();
+                playButton.classList.remove('bi-pause-fill');
+                playButton.classList.add('bi-play-fill');
+            } else {
+                currentSound.play();
+                playButton.classList.remove('bi-play-fill');
+                playButton.classList.add('bi-pause-fill');
+            }
+        }
+    });
+
+    // Volume control
+    volumeBar.addEventListener('input', () => {
+        if (currentSound) {
+            const volume = volumeBar.value / 100;
+            currentSound.volume(volume);
+            volumeDot.style.left = `${volumeBar.value}%`;
+            volumeIcon.className = volume === 0 ? 'bi bi-volume-mute-fill' : 'bi bi-volume-up-fill';
+        }
+    });
+
+    function updateSeek() {
+        if (currentSound && currentSound.playing()) {
+            const seek = currentSound.seek() || 0;
+            seekBar.value = (seek / currentSound.duration()) * 100;
+            currentStart.textContent = formatTime(seek);
+            currentEnd.textContent = formatTime(currentSound.duration());
+            requestAnimationFrame(updateSeek);
+        }
+    }
+
+    function formatTime(secs) {
+        const minutes = Math.floor(secs / 60) || 0;
+        const seconds = Math.floor(secs % 60) || 0;
+        const displayMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+        const displaySeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+        return `${displayMinutes}:${displaySeconds}`;
+    }
+
 });
+
+
 //  search data end:-
 
 //js for masterplay box:-

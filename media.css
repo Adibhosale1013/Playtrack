@@ -1,0 +1,105 @@
+/* Media Queries for Small Screens */
+@media (max-width: 768px) {
+    .choice_side {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        box-shadow: none;
+        overflow-y: auto;
+    }
+
+    .choice_side .playlist h4 {
+        font-size: 0.9rem;
+    }
+
+    .choice_side .playlist h4 i {
+        font-size: 1rem;
+    }
+
+    .choice_side .choice_song {
+        margin-top: 10px;
+    }
+
+    .choice_side .songitem {
+        padding: 8px 0;
+        white-space: nowrap; /* Ensures song names remain on one line */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Adds ellipsis (...) for overflow */
+    }
+
+    .choice_side .songitem img {
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+        border-radius: 50%; /* Ensure images are circular */
+    }
+
+    .choice_side .songitem h6 {
+        font-size: 0.8rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .choice_side::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .choice_side::-webkit-scrollbar-thumb {
+        background-color: #444;
+        border-radius: 4px;
+    }
+
+    .choice_side::-webkit-scrollbar-thumb:hover {
+        background-color: var(--highlight-color);
+    }
+    
+    .master_play {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .master_play img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .master_play h5 {
+        font-size: 0.8rem;
+        margin: 0;
+    }
+
+    .master_play .subtitle {
+        font-size: 0.7rem;
+    }
+
+    .master_play .icon {
+        gap: 10px;
+        margin-right: 0;
+    }
+
+    .master_play .bar {
+        flex: 1;
+        margin: 0 10px;
+    }
+
+    .master_play .bar input {
+        width: 100%;
+    }
+
+    .master_play .volume {
+        flex: 0 0 100px;
+        justify-content: flex-end;
+    }
+
+    .master_play .volume input {
+        width: 70px;
+    }
+
+    .wave {
+        display: none;
+    }
+}
