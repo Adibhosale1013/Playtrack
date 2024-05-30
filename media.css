@@ -103,3 +103,163 @@
         display: none;
     }
 }
+
+@media only screen and (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+
+    header {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .choice_side {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 10px;
+    }
+
+    .song_side {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .logo {
+        padding: 10px;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    nav ul a {
+        padding: 5px 10px;
+    }
+
+    nav .search input[type="text"] {
+        width: 150px;
+    }
+
+    nav .search input[type="text"]:focus {
+        width: 200px;
+    }
+
+    .content img {
+        width: 100px;
+    }
+
+    .content h1 {
+        font-size: 2rem;
+    }
+
+    .content p {
+        font-size: 0.9rem;
+    }
+
+    .content .buttons button {
+        padding: 8px 16px;
+        margin: 5px;
+    }
+
+    .hit_song .b .songitem {
+        flex: 0 0 100px;
+        margin-right: 5px;
+    }
+
+    .artist .singers li {
+        flex: 0 0 80px;
+        margin-right: 5px;
+    }
+
+    .master_play {
+        padding: 10px;
+        flex-direction: row;
+        align-items: center;
+        height: 70px; /* Adjust this value as needed */
+    }
+
+    .master_play img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .master_play h5 {
+        font-size: 0.8rem;
+        margin: 0 10px;
+    }
+
+    .master_play .icon {
+        gap: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .master_play .icon i {
+        font-size: 1.5rem;
+    }
+
+    .master_play .bar, .volume {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .master_play .bar input, .master_play .volume input {
+        height: 3px;
+    }
+
+    .master_play .volume {
+        margin-left: 5px;
+    }
+
+    .wave {
+        display: none;
+    }
+
+    .choice_side .playlist h4 {
+        padding: 8px 0;
+    }
+
+    .choice_side .playlist h4 span {
+        margin-right: 5px;
+    }
+
+    .choice_side .choice_song {
+        padding: 5px;
+    }
+
+    .choice_side .songitem {
+        padding: 5px 0;
+    }
+
+    .choice_side .songitem img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .choice_side .songitem h6 {
+        font-size: 0.7rem;
+    }
+
+    .choice_side .songitem .subtitle {
+        font-size: 0.5rem;
+    }
+
+    nav .search .results .card img {
+        width: 35px;
+        height: 35px;
+    }
+
+    nav .search .results .card .songdata {
+        font-size: 12px;
+    }
+
+    nav .search .results .card .songdata .subtitle {
+        font-size: 8px;
+    }
+}
+
